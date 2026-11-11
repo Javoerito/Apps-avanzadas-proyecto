@@ -170,7 +170,7 @@ tests/  scripts/medir_rendimiento.py  config.py  run.py  requirements.txt  .env.
 Cronograma sugerido (6 semanas): S1 análisis y modelo de datos · S2 autenticación y recuperación · S3 CRUD y lotes · S4 chat y alertas · S5 pruebas y rendimiento · S6 documentación y defensa.
 
 ## 13. Uso de IA (declaración)
-Se usó **Claude (Anthropic)** como apoyo para redactar la propuesta y generar el código base, las pruebas y esta documentación. El grupo revisó, ejecutó y probó el código y puede explicarlo y modificarlo en la defensa.
+Se usó **Claude (Anthropic)** como apoyo para redactar la propuesta y generar el código base y la documentación. El grupo revisó, ejecutó y probó el código y puede explicarlo y modificarlo en la defensa.
 *(Ajustar esta sección con el uso real de cada integrante.)*
 
 ## 14. Entrega
