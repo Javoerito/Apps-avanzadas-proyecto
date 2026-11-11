@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% from "_macros.html" import campo %}{% block title %}Salida de inventario{% endblock %}
+{% block content %}
+<section class="tarjeta estrecha"><h1>Salida de inventario</h1>
+  <p>Producto: <b>{{ p.nombre }}</b> — disponible para venta: <b>{{ p.stock_disponible }}</b></p>
+  <p class="ayuda">Se descuenta primero del lote con caducidad más próxima (FEFO). Lotes vencidos o bloqueados se excluyen.</p>
+  {% if lotes %}<ul>{% for l in lotes %}<li>{{ l.codigo }}: {{ l.cantidad_disponible }} u. — caduca {{ l.fecha_caducidad|fecha }}</li>{% endfor %}</ul>{% endif %}
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}{{ campo(form.cantidad) }}{{ campo(form.motivo) }}
+    <button class="btn" type="submit">Registrar salida</button>
+    <a class="btn btn-sec" href="{{ url_for('main.producto_detalle', id=p.id) }}">Cancelar</a>
+  </form></section>
+{% endblock %}

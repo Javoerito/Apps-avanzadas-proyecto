@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% from "_macros.html" import paginacion %}{% block title %}Movimientos{% endblock %}
+{% block content %}
+<h1>Movimientos de inventario</h1>
+<form method="get" class="filtros"><label>Tipo <select class="input" name="tipo">
+  <option value="">Todos</option><option value="ENTRADA" {{ 'selected' if tipo=='ENTRADA' }}>Entradas</option>
+  <option value="SALIDA" {{ 'selected' if tipo=='SALIDA' }}>Salidas</option></select></label>
+  <button class="btn" type="submit">Filtrar</button></form>
+<div class="tabla-scroll"><table>
+  <thead><tr><th>Fecha</th><th>Tipo</th><th>Producto</th><th>Lote</th><th>Cantidad</th><th>Usuario</th><th>Motivo</th></tr></thead>
+  <tbody>{% for m in pag.items %}<tr><td>{{ m.fecha|hora_local }}</td><td>{{ m.tipo }}</td><td>{{ m.producto.nombre }}</td>
+    <td>{{ m.lote.codigo }}</td><td>{{ m.cantidad }}</td><td>{{ m.usuario.nombre }}</td><td>{{ m.motivo or '—' }}</td></tr>
+  {% else %}<tr><td colspan="7">Sin movimientos.</td></tr>{% endfor %}</tbody>
+</table></div>
+{{ paginacion(pag, 'main.movimientos', filtros) }}
+{% endblock %}

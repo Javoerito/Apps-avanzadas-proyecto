@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% block title %}Inicio{% endblock %}
+{% block content %}
+<h1>Panel principal</h1>
+<div class="resumen">
+  <div class="tarjeta"><strong>{{ total_productos }}</strong><span>Productos activos</span></div>
+  <div class="tarjeta"><strong>{{ stock_bajo|length }}</strong><span>Con stock mínimo</span></div>
+  <div class="tarjeta"><strong>{{ por_caducar|length }}</strong><span>Lotes por caducar</span></div>
+  <div class="tarjeta"><strong>{{ pendientes }}</strong><span>Reposiciones pendientes</span></div>
+</div>
+<div class="accesos">
+  <a class="btn" href="{{ url_for('main.productos') }}">Gestionar productos (CRUD)</a>
+  <a class="btn" href="{{ url_for('main.chat') }}">Abrir chat</a>
+</div>
+<section class="tarjeta"><h2>Stock en nivel mínimo</h2>
+  {% if stock_bajo %}<ul>{% for p, stock in stock_bajo %}
+    <li><a href="{{ url_for('main.producto_detalle', id=p.id) }}">{{ p.nombre }}</a> — {{ stock }} / mínimo {{ p.stock_minimo }}</li>
+  {% endfor %}</ul>{% else %}<p class="ayuda">Sin alertas de stock.</p>{% endif %}</section>
+<section class="tarjeta"><h2>Lotes próximos a caducar</h2>
+  {% if por_caducar %}<ul>{% for l in por_caducar %}
+    <li>{{ l.producto.nombre }} — lote {{ l.codigo }} caduca {{ l.fecha_caducidad|fecha }} ({{ l.cantidad_disponible }} u.)</li>
+  {% endfor %}</ul>{% else %}<p class="ayuda">Sin lotes próximos a caducar.</p>{% endif %}</section>
+{% if vencidos %}<section class="tarjeta"><h2>Lotes vencidos con existencias (no aptos para venta)</h2><ul>
+  {% for l in vencidos %}<li>{{ l.producto.nombre }} — lote {{ l.codigo }} venció {{ l.fecha_caducidad|fecha }} ({{ l.cantidad_disponible }} u.)</li>{% endfor %}
+</ul></section>{% endif %}
+{% endblock %}

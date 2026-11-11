@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% block title %}Chat{% endblock %}
+{% block content %}
+<h1>Chat interno</h1>
+<div id="chat" class="chat">
+  <aside class="chat-lado">
+    <h2>Salas</h2>
+    <ul id="salas">{% for s in salas %}<li><button type="button" class="btn btn-sec sala" data-sala="{{ s.id }}">{{ s.nombre }}</button></li>{% endfor %}</ul>
+    <h2>Conectados (<span id="n-conectados">0</span>)</h2>
+    <ul id="conectados"></ul>
+  </aside>
+  <section class="chat-main">
+    <h2 id="sala-actual">Elige una sala</h2>
+    <div id="mensajes" class="mensajes" aria-live="polite"></div>
+    <form id="form-chat" autocomplete="off">
+      <input id="texto" class="input" type="text" maxlength="500" required placeholder="Escribe un mensaje…" aria-label="Mensaje" disabled>
+      <button class="btn" type="submit" id="enviar" disabled>Enviar</button>
+    </form>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/chat.js') }}"></script>{% endblock %}

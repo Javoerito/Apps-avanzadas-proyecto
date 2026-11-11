@@ -1,0 +1,25 @@
+{% macro campo(f, ayuda=None) %}
+<div class="campo{{ ' con-error' if f.errors }}">
+  {{ f.label }}
+  {{ f(class_="input", **kwargs) }}
+  {% if ayuda %}<small class="ayuda">{{ ayuda }}</small>{% endif %}
+  {% for e in f.errors %}<small class="error">{{ e }}</small>{% endfor %}
+</div>
+{% endmacro %}
+
+{% macro paginacion(pag, endpoint, params={}) %}
+{% if pag.pages > 1 %}
+<nav class="paginacion" aria-label="Paginación">
+  {% if pag.has_prev %}<a href="{{ url_for(endpoint, page=pag.prev_num, **params) }}">« Anterior</a>{% endif %}
+  {% for n in pag.iter_pages() %}
+    {% if n is none %}<span>…</span>
+    {% elif n == pag.page %}<strong aria-current="page">{{ n }}</strong>
+    {% else %}<a href="{{ url_for(endpoint, page=n, **params) }}">{{ n }}</a>{% endif %}
+  {% endfor %}
+  {% if pag.has_next %}<a href="{{ url_for(endpoint, page=pag.next_num, **params) }}">Siguiente »</a>{% endif %}
+</nav>
+<p class="ayuda">Mostrando {{ pag.items|length }} de {{ pag.total }} registros</p>
+{% endif %}
+{% endmacro %}
+
+{% macro csrf_input() %}<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{% endmacro %}

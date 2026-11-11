@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% from "_macros.html" import paginacion %}{% block title %}Reposición{% endblock %}
+{% block content %}
+<h1>Solicitudes de reposición</h1>
+<form method="get" class="filtros"><label>Estado <select class="input" name="estado">
+  <option value="pendiente" {{ 'selected' if estado=='pendiente' }}>Pendientes</option>
+  <option value="atendida" {{ 'selected' if estado=='atendida' }}>Atendidas</option>
+  <option value="todas" {{ 'selected' if estado=='todas' }}>Todas</option></select></label>
+  <button class="btn" type="submit">Filtrar</button></form>
+<div class="tabla-scroll"><table>
+  <thead><tr><th>Creada</th><th>Producto</th><th>Cantidad sugerida</th><th>Estado</th><th></th></tr></thead>
+  <tbody>{% for s in pag.items %}<tr><td>{{ s.creada_en|hora_local }}</td>
+    <td><a href="{{ url_for('main.producto_detalle', id=s.producto_id) }}">{{ s.producto.nombre }}</a></td>
+    <td>{{ s.cantidad_sugerida }}</td><td>{{ s.estado }}</td>
+    <td>{% if s.estado == 'pendiente' and current_user.rol.nombre in ('admin','bodega') %}
+      <form method="post" action="{{ url_for('main.reposicion_atender', id=s.id) }}" class="en-linea">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn" type="submit">Marcar atendida</button></form>{% endif %}</td></tr>
+  {% else %}<tr><td colspan="5">No hay solicitudes.</td></tr>{% endfor %}</tbody>
+</table></div>
+{{ paginacion(pag, 'main.reposiciones', filtros) }}
+{% endblock %}

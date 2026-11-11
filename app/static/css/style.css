@@ -1,0 +1,52 @@
+:root { --azul:#1d4ed8; --gris:#64748b; --borde:#e2e8f0; --fondo:#f8fafc; --rojo:#b91c1c; --verde:#15803d; --ambar:#b45309; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--fondo); color:#0f172a; line-height:1.5; }
+a { color: var(--azul); }
+.contenedor { max-width: 1100px; margin: 1.5rem auto; padding: 0 1rem; }
+.barra { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; background:#0f172a; color:#fff; padding:.6rem 1rem; }
+.barra a { color:#fff; text-decoration:none; margin-right:.9rem; }
+.barra a:hover, .barra a:focus { text-decoration:underline; }
+.barra nav { flex:1; }
+.marca { font-weight:700; }
+.salir { display:flex; gap:.6rem; align-items:center; font-size:.9rem; }
+.tarjeta { background:#fff; border:1px solid var(--borde); border-radius:10px; padding:1rem 1.2rem; margin-bottom:1rem; }
+.estrecha { max-width:520px; margin-inline:auto; }
+.resumen { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; }
+.resumen strong { display:block; font-size:1.8rem; }
+.resumen span { color:var(--gris); }
+.accesos, .acciones { display:flex; flex-wrap:wrap; gap:.5rem; margin:1rem 0; }
+.fila { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:.5rem; }
+.btn { display:inline-block; background:var(--azul); color:#fff; border:0; border-radius:8px; padding:.5rem .9rem; cursor:pointer; text-decoration:none; font-size:.95rem; }
+.btn:hover, .btn:focus-visible { filter:brightness(.92); }
+.btn-sec { background:#fff; color:#0f172a; border:1px solid #cbd5e1; }
+.btn-peligro { background:var(--rojo); }
+.en-linea { display:inline; }
+.campo { margin-bottom:.9rem; display:flex; flex-direction:column; gap:.25rem; }
+.input { padding:.5rem .6rem; border:1px solid #cbd5e1; border-radius:8px; font:inherit; width:100%; }
+.input:focus-visible, .btn:focus-visible, a:focus-visible { outline:3px solid #93c5fd; outline-offset:1px; }
+.con-error .input { border-color:var(--rojo); }
+.error { color:var(--rojo); } .ayuda { color:var(--gris); font-size:.85rem; }
+.filtros { display:flex; flex-wrap:wrap; gap:.8rem; align-items:end; margin:1rem 0; }
+.filtros .input { width:auto; }
+.tabla-scroll { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; background:#fff; }
+th, td { text-align:left; padding:.5rem .6rem; border-bottom:1px solid var(--borde); }
+th { background:#f1f5f9; }
+.critico { color:var(--rojo); font-weight:700; } .vencido { background:#fef2f2; }
+.paginacion { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0 .2rem; }
+.paginacion a, .paginacion strong, .paginacion span { padding:.25rem .6rem; border:1px solid var(--borde); border-radius:6px; background:#fff; text-decoration:none; }
+.paginacion strong { background:var(--azul); color:#fff; }
+.aviso { padding:.7rem 1rem; border-radius:8px; margin-bottom:1rem; border:1px solid; }
+.aviso-success { background:#f0fdf4; border-color:#86efac; } .aviso-danger { background:#fef2f2; border-color:#fca5a5; }
+.aviso-warning { background:#fffbeb; border-color:#fcd34d; } .aviso-info { background:#eff6ff; border-color:#93c5fd; }
+#toasts { position:fixed; right:1rem; bottom:1rem; display:flex; flex-direction:column; gap:.5rem; max-width:340px; z-index:50; }
+.toast { background:#fff; border-left:6px solid var(--azul); border-radius:8px; padding:.6rem .8rem; box-shadow:0 4px 14px rgba(0,0,0,.2); display:flex; flex-direction:column; }
+.toast-danger { border-color:var(--rojo); } .toast-warning { border-color:var(--ambar); }
+.chat { display:grid; grid-template-columns:230px 1fr; gap:1rem; }
+.chat-lado, .chat-main { background:#fff; border:1px solid var(--borde); border-radius:10px; padding:1rem; }
+.chat ul { list-style:none; padding:0; margin:0 0 1rem; display:flex; flex-direction:column; gap:.4rem; }
+.sala { width:100%; text-align:left; } .sala.activa { background:var(--azul); color:#fff; }
+.mensajes { height:380px; overflow-y:auto; border:1px solid var(--borde); border-radius:8px; padding:.6rem; margin-bottom:.6rem; background:var(--fondo); }
+.msg p { margin:.1rem 0 .6rem; word-break:break-word; }
+#form-chat { display:flex; gap:.5rem; }
+@media (max-width:700px) { .chat { grid-template-columns:1fr; } }

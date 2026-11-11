@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% from "_macros.html" import paginacion %}{% block title %}Productos{% endblock %}
+{% block content %}
+<div class="fila"><h1>Productos</h1>
+  {% if current_user.rol.nombre in ('admin','bodega') %}<a class="btn" href="{{ url_for('main.producto_nuevo') }}">+ Nuevo producto</a>{% endif %}</div>
+<form method="get" class="filtros">
+  <label>Buscar <input class="input" type="search" name="q" value="{{ q }}" maxlength="100" placeholder="SKU o nombre"></label>
+  <label>Estado <select class="input" name="estado">
+    <option value="">Todos</option>
+    <option value="activo" {{ 'selected' if estado=='activo' }}>Activo</option>
+    <option value="inactivo" {{ 'selected' if estado=='inactivo' }}>Inactivo</option></select></label>
+  <button class="btn" type="submit">Filtrar</button>
+</form>
+<div class="tabla-scroll"><table>
+  <thead><tr><th>SKU</th><th>Nombre</th><th>Unidad</th><th>Stock disp.</th><th>Mínimo</th><th>Estado</th><th></th></tr></thead>
+  <tbody>{% for p in pag.items %}
+    <tr><td>{{ p.sku }}</td><td>{{ p.nombre }}</td><td>{{ p.unidad }}</td>
+      <td class="{{ 'critico' if p.stock_disponible <= p.stock_minimo }}">{{ p.stock_disponible }}</td>
+      <td>{{ p.stock_minimo }}</td><td>{{ p.estado }}</td>
+      <td><a href="{{ url_for('main.producto_detalle', id=p.id) }}">Ver</a></td></tr>
+  {% else %}<tr><td colspan="7">No se encontraron productos.</td></tr>{% endfor %}</tbody>
+</table></div>
+{{ paginacion(pag, 'main.productos', filtros) }}
+{% endblock %}

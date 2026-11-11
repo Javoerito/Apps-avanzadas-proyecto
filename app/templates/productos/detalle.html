@@ -1,0 +1,36 @@
+{% extends "base.html" %}{% block title %}{{ p.nombre }}{% endblock %}
+{% block content %}
+<div class="fila"><h1>{{ p.nombre }} <small>({{ p.sku }})</small></h1>
+  <div class="acciones">
+    {% if current_user.rol.nombre in ('admin','ventas') %}<a class="btn" href="{{ url_for('main.salida', id=p.id) }}">Registrar salida</a>{% endif %}
+    {% if current_user.rol.nombre in ('admin','bodega') %}
+      <a class="btn" href="{{ url_for('main.entrada', id=p.id) }}">Registrar entrada (lote)</a>
+      <a class="btn btn-sec" href="{{ url_for('main.producto_editar', id=p.id) }}">Editar</a>
+      <form method="post" action="{{ url_for('main.producto_eliminar', id=p.id) }}" data-confirm="¿Eliminar el producto {{ p.nombre }}? Esta acción no se puede deshacer." class="en-linea">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="btn btn-peligro" type="submit">Eliminar</button></form>
+    {% endif %}
+  </div></div>
+<section class="tarjeta">
+  <p>{{ p.descripcion or 'Sin descripción.' }}</p>
+  <p><b>Unidad:</b> {{ p.unidad }} · <b>Estado:</b> {{ p.estado }} · <b>Stock mínimo:</b> {{ p.stock_minimo }} ·
+     <b>Stock disponible para venta:</b> <span class="{{ 'critico' if p.stock_disponible <= p.stock_minimo }}">{{ p.stock_disponible }}</span></p>
+</section>
+<h2>Lotes (orden FEFO)</h2>
+<div class="tabla-scroll"><table>
+  <thead><tr><th>Lote</th><th>Proveedor</th><th>Inicial</th><th>Disponible</th><th>Costo</th><th>Ingreso</th><th>Caduca</th><th>Ubicación</th><th>Estado</th></tr></thead>
+  <tbody>{% for l in lotes %}<tr class="{{ 'vencido' if l.vencido }}">
+    <td>{{ l.codigo }}</td><td>{{ l.proveedor.nombre }}</td><td>{{ l.cantidad_inicial }}</td><td>{{ l.cantidad_disponible }}</td>
+    <td>${{ '%.2f'|format(l.costo_unitario) }}</td><td>{{ l.fecha_ingreso|fecha }}</td><td>{{ l.fecha_caducidad|fecha }}</td>
+    <td>{{ l.ubicacion or '—' }}</td><td>{{ 'vencido' if l.vencido else l.estado }}</td></tr>
+  {% else %}<tr><td colspan="9">Aún no hay lotes.</td></tr>{% endfor %}</tbody>
+</table></div>
+<h2>Últimos movimientos</h2>
+<div class="tabla-scroll"><table>
+  <thead><tr><th>Fecha</th><th>Tipo</th><th>Lote</th><th>Cantidad</th><th>Usuario</th><th>Motivo</th></tr></thead>
+  <tbody>{% for m in movs %}<tr><td>{{ m.fecha|hora_local }}</td><td>{{ m.tipo }}</td><td>{{ m.lote.codigo }}</td>
+    <td>{{ m.cantidad }}</td><td>{{ m.usuario.nombre }}</td><td>{{ m.motivo or '—' }}</td></tr>
+  {% else %}<tr><td colspan="6">Sin movimientos.</td></tr>{% endfor %}</tbody>
+</table></div>
+<p><a href="{{ url_for('main.productos') }}">← Volver al listado</a></p>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% from "_macros.html" import campo %}{% block title %}Nueva contraseña{% endblock %}
+{% block content %}
+<section class="tarjeta estrecha">
+  <h1>Nueva contraseña</h1>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}{{ campo(form.password) }}{{ campo(form.confirmar) }}
+    <button class="btn" type="submit">Guardar</button>
+  </form>
+</section>
+{% endblock %}
